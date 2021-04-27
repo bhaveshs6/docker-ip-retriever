@@ -1,0 +1,15 @@
+- hosts: webserver
+  tasks:
+         - package:
+                 name: httpd
+                 state: present
+           notify: handler1
+         - copy:
+                 content: "This is coming from {{ansible_distribution}}."
+                 dest: "/var/www/html/index.html"
+           notify: handler1
+
+  handlers:
+         - name: handler1
+           command: "/usr/sbin/httpd"
+

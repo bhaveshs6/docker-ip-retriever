@@ -1,0 +1,23 @@
+
+- hosts: localhost
+  tasks:
+      - name: Launching the container
+        docker_container:
+          name: myos
+          image: ssh_enabled:v1
+          #state: present
+          ports:
+                 - 8081:80
+          detach: yes
+          interactive: yes
+          tty: yes
+
+      - name: Retrieving the container IP
+        docker_container_info:
+          name: "myos"
+        register: dockerip
+
+      - name: Creating inventory
+        template:
+           src: template
+           dest : inventory.txt
